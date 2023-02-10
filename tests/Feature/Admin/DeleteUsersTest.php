@@ -69,4 +69,33 @@ class DeleteUsersTest extends TestCase
         $user->refresh();
         $this->assertTrue($user->trashed());
     }
+
+    /** @test */
+    function it_restores_a_user_to_the_from_trash()
+    {
+        $user = factory(User::class)->create();
+
+        $user->skills()->attach(factory(Skill::class)->create());
+
+        $this->put('usuarios/' . $user->id . '/papelera')
+            ->assertRedirect('usuarios');
+
+        $this->assertSoftDeleted('users', [
+            'id' => $user->id
+        ]);
+        $this->assertSoftDeleted('skill_user', [
+            'user_id' => $user->id,
+        ]);
+        $this->assertSoftDeleted('user_profiles', [
+            'user_id' => $user->id,
+        ]);
+
+        $this->put('usuarios/' . $user->id . '/papelera')
+            ->assertRedirect('usuarios/papelera');
+
+        $this->assertDatabaseHas('users', [
+            'id' => $user->id,
+            'deleted_at' => null,
+        ]);
+    }
 }
