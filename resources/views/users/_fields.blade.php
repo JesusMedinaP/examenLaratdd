@@ -42,9 +42,9 @@
         @foreach($professions as $profession)
             <option value="{{ $profession->id }}" {{ old('profession_id', $user->profile->profession_id) == $profession->id ? 'selected' : ''}}>{{ $profession->title }}</option>
         @endforeach
-        <option value="{{sizeof($professions) +1 }}">No está en la lista
-            <textarea class="form-control" style="margin-top: 5px">{{old('profession_id')}}</textarea>
-        </option>
+{{--        <option value="{{sizeof($professions) +1 }}">No está en la lista--}}
+{{--            <textarea class="form-control" style="margin-top: 5px">{{old('profession_id')}}</textarea>--}}
+{{--        </option>--}}
     </select>
 </div>
 
