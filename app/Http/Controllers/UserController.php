@@ -114,4 +114,11 @@ class UserController extends Controller
         ]);
     }*/
 
+    public function restore(User $user)
+    {
+        $user->restore();
+
+        return redirect()->route('users.trashed');
+    }
+
 }

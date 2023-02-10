@@ -21,6 +21,7 @@
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-link"><span class="oi oi-circle-x"></span></button>
+                <a href="{{route('user.restore', $user)}}">Restaurar</a>
             </form>
         @else
             <form action="{{ route('users.trash', $user) }}" method="POST">

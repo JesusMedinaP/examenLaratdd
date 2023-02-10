@@ -49,3 +49,5 @@ Route::get('habilidades', 'SkillController@index')
 
 Route::get('saludo/{name}/{nickname?}', 'WelcomeUserController');
 
+Route::put('usuarios/{user}/papelera', 'UserController@restore')
+    ->name('user.restore');

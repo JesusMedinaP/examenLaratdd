@@ -72,6 +72,19 @@ class User extends Authenticatable
         });
     }
 
+    public function restore()
+    {
+        DB::transaction(function (){
+            DB::table('users')
+                ->where('user_id', $this->id)
+                ->update(['deleted_at' => null]);
+
+            DB::table('skill_user')
+                ->where('user_id', $this->id)
+                ->update(['deleted_at' => null]);
+        });
+    }
+
     public function isAdmin()
     {
         return $this->role === 'admin';
