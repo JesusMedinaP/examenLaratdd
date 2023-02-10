@@ -8,6 +8,7 @@ use App\Sortable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class UserFilter extends QueryFilter
 {
@@ -26,6 +27,7 @@ class UserFilter extends QueryFilter
             'from' => 'date_format:d/m/Y',
             'to' => 'date_format:d/m/Y',
             'order' => [new SortableColumn(['first_name', 'email', 'date', 'login'])],
+            'team' => Rule::exists( 'teams', 'id'),
         ];
     }
 
