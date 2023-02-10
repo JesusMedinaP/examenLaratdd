@@ -350,4 +350,55 @@ class CreateUsersTest extends TestCase
 
         $this->assertDatabaseEmpty('users');
     }
+
+
+    /** @test */
+    function the_bio_is_required_when_creating()
+    {
+        $this->withExceptionHandling();
+
+        $this->from('usuarios/nuevo')
+            ->post('usuarios', $this->getValidData([
+                'bio' => '',
+            ]))
+            ->assertSessionHasErrors(['bio' => 'El campo bio es obligatorio']);
+
+        $this->assertDatabaseEmpty('users');
+    }
+
+    /** @test */
+    function the_twitter_field_must_be_a_url_when_creating()
+    {
+        $this->withExceptionHandling();
+
+        $this->from('usuarios/nuevo')
+            ->post('usuarios', $this->getValidData([
+                'twitter' => 'url-no-valida',
+            ]))
+            ->assertSessionHasErrors(['twitter' => 'El campo Twitter debe ser una URL válida']);
+
+        $this->assertDatabaseEmpty('users');
+    }
+
+    /** @test */
+    function the_twitter_field_is_optional_when_creating()
+    {
+        $this->post('usuarios', $this->getValidData([
+            'twitter' => '',
+        ]))->assertRedirect('usuarios');
+
+        $this->assertDatabaseHas('users', [
+            'email' => 'pepe@mail.es',
+            'role' => 'user',
+        ]);
+    }
 }
+
+
+
+
+
+
+
+
+
