@@ -23,7 +23,7 @@ class CreateUserProfilesTable extends Migration
                 ->nullable();
             $table->foreign('profession_id')
                 ->references('id')
-                ->on('professions');
+                ->on('professions')->onDelete('CASCADE');
 
             $table->unsignedInteger('user_id')->unique();
             $table->foreign('user_id')

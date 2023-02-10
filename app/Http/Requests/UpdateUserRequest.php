@@ -35,8 +35,7 @@ class UpdateUserRequest extends FormRequest
             'bio' => 'required',
             'twitter' => ['nullable', 'present', 'url'],
             'profession_id' => [
-                'nullable', 'present',
-                Rule::exists('professions', 'id')->whereNull('deleted_at')
+                'required', 'present',
             ],
             'skills' => [
                 'array',

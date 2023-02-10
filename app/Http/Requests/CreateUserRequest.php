@@ -35,10 +35,8 @@ class CreateUserRequest extends FormRequest
             'bio' => 'required',
             'twitter' => ['nullable', 'present', 'url'],
             'profession_id' => [
-                'nullable',
+                'required',
                 'present',
-                Rule::exists('professions', 'id')
-                                ->whereNull('deleted_at')
             ],
             'skills' => [
                 'array',
@@ -63,6 +61,7 @@ class CreateUserRequest extends FormRequest
             'password.required' => 'El campo contraseña es obligatorio',
             'bio.required' => 'El campo bio es obligatorio',
             'twitter.url' => 'El campo Twitter debe ser una URL válida',
+            'profession_id.required' => 'El campo profesión es obligatorio',
         ];
     }
 

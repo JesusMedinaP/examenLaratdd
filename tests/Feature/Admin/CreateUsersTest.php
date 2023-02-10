@@ -190,27 +190,27 @@ class CreateUsersTest extends TestCase
         $this->assertEquals(1, User::count());
     }
 
-    /** @test */
-    function the_profession_id_field_is_optional()
-    {
-        $this->withExceptionHandling();
-
-        $this->post('usuarios', $this->getValidData([
-            'profession_id' => null
-        ]))->assertRedirect('usuarios');
-
-        $this->assertCredentials([
-            'first_name' => 'Pepe',
-            'email' => 'pepe@mail.es',
-            'password' => '12345678',
-        ]);
-
-        $this->assertDatabaseHas('user_profiles', [
-            'bio' => 'Programador de Laravel y Vue.js',
-            'user_id' => User::findByEmail('pepe@mail.es')->id,
-            'profession_id' => null,
-        ]);
-    }
+//    /** @test */
+//    function the_profession_id_field_is_optional()
+//    {
+//        $this->withExceptionHandling();
+//
+//        $this->post('usuarios', $this->getValidData([
+//            'profession_id' => null
+//        ]))->assertRedirect('usuarios');
+//
+//        $this->assertCredentials([
+//            'first_name' => 'Pepe',
+//            'email' => 'pepe@mail.es',
+//            'password' => '12345678',
+//        ]);
+//
+//        $this->assertDatabaseHas('user_profiles', [
+//            'bio' => 'Programador de Laravel y Vue.js',
+//            'user_id' => User::findByEmail('pepe@mail.es')->id,
+//            'profession_id' => null,
+//        ]);
+//    }
 
     /** @test */
     function the_profession_id_must_be_valid()
@@ -391,6 +391,20 @@ class CreateUsersTest extends TestCase
             'email' => 'pepe@mail.es',
             'role' => 'user',
         ]);
+    }
+
+    /** @test */
+    function the_profession_is_required_when_creating()
+    {
+        $this->withExceptionHandling();
+
+        $this->from('usuarios/nuevo')
+            ->post('usuarios', $this->getValidData([
+                'profession_id' => '',
+            ]))
+            ->assertSessionHasErrors(['profession_id' => 'El campo profesión es obligatorio']);
+
+        $this->assertDatabaseEmpty('users');
     }
 }
 
